@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>RPi Drinkbot</title>
+
+	<!-- add Angular.js and our script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <script>
+		var app = angular.module('app', []);
+
+		app.controller('ctrl', ($scope, $http) => {
+		  // to initialize, request the config from the server with an HTTP GET request (Angular's $http makes this simple)
+		  $http.get('config')
+			.then(response => $scope.drinks = response.data.drinks)
+			.catch(err => console.error(err));
+
+          $scope.ready = () => {
+              $http.get('ready')
+              .then(response => alert(response.data))
+			  .catch(err => console.error(err));
+          }
+
+		  $scope.order = (drink) => {
+			// send an HTTP POST request to the server with the drink id
+			$http.post('order/' + drink.id)
+			  .then(response => alert(response.data))
+			  .catch(err => console.error(err));
+		  };
+		});
+    </script>
+  </head>
+
+  <!-- The body contains the template for the app -->
+  <body ng-app="app" ng-controller="ctrl">
+
+    <div ng-repeat="drink in drinks" style="display:inline-block; width:200px; height:200px; vertical-align: text-top; background-color: gray; margin:10px; padding: 5px;">
+      <h3>{{ drink.displayName }}</h3>
+      <ul>
+        <li ng-repeat="(ing, shots) in drink.recipe">
+          {{ shots }} oz {{ ing }}
+        </li>
+      </ul>
+      <button ng-click="order(drink)" style="top: 180px; position: absolute;">Order</button>
+    </div>
+
+    <div style="margin: 30px">
+        <button ng-click="ready()"><h3>Make It!</h3></button>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "pydrinkbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DVG-Group1/pydrinkbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DVG-Group1/pydrinkbot/issues"
+  },
+  "homepage": "https://github.com/DVG-Group1/pydrinkbot#readme",
+  "dependencies": {
+    "angular": "^1.6.3",
+    "angular-material": "^1.1.3"
+  }
+}

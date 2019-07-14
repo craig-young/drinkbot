@@ -1,0 +1,99 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+</head>
+  <!--
+    Your HTML content here
+  -->
+
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+  <!-- Your application bootstrap  -->
+  <script type="text/javascript">
+    /**
+     * You must include the dependency on 'ngMaterial'
+     */
+    var app = angular.module('app', ['ngMaterial'])
+    .config(function($mdThemingProvider) {
+      $mdThemingProvider.theme('default')
+        .primaryPalette('light-green')
+        .accentPalette('blue-grey')
+    });
+
+    app.controller('ctrl', ($scope, $http, $mdDialog) => {
+
+      // to initialize, request the config from the server with an HTTP GET request (Angular's $http makes this simple)
+      $http.get('config')
+        .then(response => $scope.drinks = response.data.drinks)
+        .catch(err => console.error(err));
+
+        $scope.showAlert = function(ev) {
+        $mdDialog.show(
+          $mdDialog.alert()
+            .parent(angular.element(document.querySelector('#popupContainer')))
+            .clickOutsideToClose(true)
+            .title(ev)
+            .ariaLabel('Alert Dialog')
+            .ok('Got it!')
+            .targetEvent(ev)
+            );
+        };
+
+      $scope.ready = () => {
+          $http.get('ready')
+          .then(response => $scope.showAlert(response.data))
+          .catch(err => console.error(err));
+      }
+
+      $scope.order = (drink) => {
+        // send an HTTP POST request to the server with the drink id
+        $http.post('order/' + drink.id)
+          .then(response => $scope.showAlert(response.data))
+          .catch(err => console.error(err));
+      };
+    });
+
+
+
+  </script>
+  <body ng-app="app" ng-controller="ctrl">
+
+      <md-toolbar class="md-hue-2" md-theme="default">
+            <div class="md-toolbar-tools">
+
+              <h2 flex md-truncate>Vanguard DrinkBot</h2>
+              <md-button class="md-raised" aria-label="Learn More" ng-click="ready()">
+           I'm Thirsty! Make the next Drink!
+            </md-button>
+            </div>
+          </md-toolbar>
+
+    <div ng-repeat="drink in drinks" style="display:inline-block;">
+        <md-card style=" width:220px; height:220px;">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{ drink.displayName }}</span>
+                <div  style="margin-top:15px;">
+                    <li ng-repeat="(ing, shots) in drink.recipe">
+                      {{ shots }} oz {{ ing }}
+                    </li>
+                </div>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button class="md-raised md-accent md-hue-1" ng-click="order(drink)">Order</md-button>
+            </md-card-actions>
+         </md-card>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,52 @@
+{
+	"drinks": [{
+		"id": "vt",
+		"displayName": "Vodka Tonic",
+		"recipe": {
+			"vodka": 1,
+			"tonic": 5
+		}
+	}, {
+		"id": "lv",
+		"displayName": "Lots of Vodka",
+		"recipe": {
+		    "vodka": 4
+		 }
+	}, {
+		"id": "b",
+		"displayName": "Bourbon",
+		"recipe": {
+			"bourbon": 2
+		}
+	}, {
+		"id": "vnc",
+		"displayName": "Vodka and Cranberry",
+		"recipe": {
+			"vodka": 1,
+			"cranberry juice": 3
+		}
+	},  {
+		"id": "rc",
+		"displayName": "Rum & Coke",
+		"recipe": {
+			"Spiced Rum": 1,
+			"Coca-Cola": 5
+		}
+	}],
+
+	"ingredients": [{
+		"id": "vodka",
+		"pin": 18
+	}, {
+		"id": "tonic",
+		"pin": 27
+	}, {
+		"id": "bourbon",
+		"pin": 22
+	}, {
+		"id": "cranberry juice",
+		"pin": 23
+	}],
+	"secPerOunce": 2,
+	"buttonPin": 17
+}
